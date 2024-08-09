@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const validateEmail = function (email) {
+const validateEmail = function (email) { // this is a function that validates the users email using regex.
     const re = /^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/;
     return re.test(email);
 }
@@ -8,26 +8,26 @@ const validateEmail = function (email) {
 
 const userSchema = new Schema(
     {
-        username: {
+        username: { // username must be a string
             type: String,
             unique: true,
             required: true,
             trim: true
         },
-        email: {
+        email: { // email must have validateEmail regex
             type: String,
             unique: true,
             required: true,
             validate: [validateEmail, 'Please create a valid email address'],
             match: [/^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/, 'Please fill a valid email address']
         },
-        thoughts: [
+        thoughts: [ // foreign key to thoughts array
             {
                 type: Schema.Types.ObjectId,
                 ref: 'thought'
             }
         ],
-        friends: [
+        friends: [ // foreign key to friends array
             {
                 type: Schema.Types.ObjectId,
                 ref: 'user'

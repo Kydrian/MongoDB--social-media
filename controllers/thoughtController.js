@@ -28,7 +28,7 @@ module.exports = {
         }
     },
 
-    async createThought(req, res) {
+    async createThought(req, res) {// Post method that creates new user
         try {
             const thought = await Thought.create(req.body);
             const user = await User.findOneAndUpdate(
@@ -39,7 +39,7 @@ module.exports = {
 
             if (!user) {
                 return res.status(404).json({
-                    message: 'Application created, but found no user with that ID',
+                    message: 'No user with that ID', 
                 })
             }
 
@@ -49,7 +49,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    async updateThought(req, res) {
+    async updateThought(req, res) { // put method that updates thought by its ID
         try {
             const thoughts = await Thought.findOneAndUpdate(
                 { _id: req.params.id },
@@ -66,12 +66,12 @@ module.exports = {
         }
     },
 
-    async deleteThought(req, res) {
+    async deleteThought(req, res) { // Delete route that finds thought by its ID
         try {
             const thought = await Thought.findOneAndDelete({ _id: req.params.id })
 
             if (!thought) {
-                return res.status(404).json({ message: 'No thought with that Id' })
+                return res.status(404).json({ message: 'No thought with that Id' }) // if no thought with that ID then return an error
             }
             res.json(thought)
 
@@ -80,15 +80,15 @@ module.exports = {
         }
     },
 
-    async addReaction(req, res) {
+    async addReaction(req, res) { // this searches for Thought by its ID and adds a reaction
         try {
             const reaction = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $addToSet: { reactions: req.body } },
+                { $addToSet: { reactions: req.body } }, // $add to set adds to reaction
                 { runValidators: true, new: true }
             );
             if (!reaction) {
-                return res.status(404).json({ message: 'no thought with that ID' })
+                return res.status(404).json({ message: 'no thought with that ID' }) // if no thought with that ID then throw an error
             }
             res.json(reaction)
         } catch (err) {
@@ -97,11 +97,11 @@ module.exports = {
     },
 
 
-    async removeReaction(req, res) {
+    async removeReaction(req, res) { // this will acess thoughts by its ID and remove reaction by its ID
         try {
             const remove = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                { $pull: { reactions: { reactionId: req.params.reactionId } } }, // $pull removes from set
                 {runValidators: true, new: true}
             );
 

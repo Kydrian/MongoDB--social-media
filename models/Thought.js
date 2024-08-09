@@ -4,20 +4,20 @@ const Mongoose = require('mongoose');
 
 const reactionSchema = new Schema(
     {
-        reactionId: {
+        reactionId: { // this will give reaction an ID
             type: Schema.Types.ObjectId,
             default: new Mongoose.Types.ObjectId
         },
-        reactionBody: {
+        reactionBody: { // reaction body must be a string
             type: String,
             required: true,
             maxlength: 280
         },
-        username: {
+        username: { // referes to user schema
             type: String,
             required: true
         },
-        createdAt: {
+        createdAt: { // javascript that allows us to see the current date create at
             type: Date,
             default: Date.now,
         }
@@ -32,21 +32,21 @@ const reactionSchema = new Schema(
 
 const thoughtSchema = new Schema(
     {
-        thoughtText: {
+        thoughtText: { // text must be a string
             type: String,
             required: true,
             maxLength: 280,
             minlenght: 1
         },
-        createdAt: {
+        createdAt: { // javascript that tells us the date created on
             type: Date,
             default: Date.now
         },
-        username: {
+        username: { // refers to user schema
             type: String,
             required: true
         },
-        reactions: [reactionSchema]
+        reactions: [reactionSchema] // foreign key to reaction schema
     },
     {
         toJSON: {

@@ -1,6 +1,6 @@
 const { User, Thought } = require('../models');
 module.exports = {
-    async getUser(req, res) {
+    async getUser(req, res) { // 
         try {
             const users = await User.find().populate('thoughts', 'friends');
             res.json(users);
@@ -9,12 +9,12 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-    async getSingleUser(req, res) {
+    async getSingleUser(req, res) { // get user by its ID
         try {
             const user = await User.findOne({ _id: req.params.id })
             .populate('thoughts','friends');
             
-            if (!user) {
+            if (!user) { // if no user then return an error
                 return res.status(404).json({ message: 'User not found' });
             }
     
@@ -26,7 +26,7 @@ module.exports = {
     },
 
     async createUser(req, res) {
-        try {
+        try { // post method for creating a new user
             const newUser = await User.create(req.body);
             console.log(newUser),
             res.json(newUser);
@@ -35,7 +35,7 @@ module.exports = {
         }
     },
 
-    async updateUser(req, res) {
+    async updateUser(req, res) { // put method for updating user
         try {
             const users = await User.findOneAndUpdate(
                 { _id: req.params.id },
@@ -51,7 +51,7 @@ module.exports = {
         }
     },
 
-    async deleteUser(req, res) {
+    async deleteUser(req, res) { // delete method for finding user by its ID and delete
         try {
             const user = await User.findOneAndDelete({ _id: req.params.id });
             if (!user) {
@@ -65,7 +65,7 @@ module.exports = {
         }
     },
 
-    async addFriend(req, res) {
+    async addFriend(req, res) { // put method for updating user when adding a friend
         try {
             const users = await User.findByIdAndUpdate(
                 { _id: req.params.userId },
@@ -82,7 +82,7 @@ module.exports = {
             res.status(500).json({ message: 'something went wrong' });
         }
     },
-    async deleteFriend(req, res) {
+    async deleteFriend(req, res) { // delete method that finds user by its ID and deletes a friend
         try{
             const deleteFreind = await User.findOneAndUpdate(
                 {_id: req.params.userId},
