@@ -1,23 +1,23 @@
 
-const { Schema, model } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const Mongoose = require('mongoose');
 
 const reactionSchema = new Schema(
-    {
-        reactionId: { // this will give reaction an ID
+    { // schema for reactions. Each reaction has a reactionId, reactionBody, username, and createdAt function
+        reactionId: {
             type: Schema.Types.ObjectId,
-            default: new Mongoose.Types.ObjectId
+            default: () => new Types.ObjectId(),
         },
-        reactionBody: { // reaction body must be a string
+        reactionBody: {
             type: String,
             required: true,
             maxlength: 280
         },
-        username: { // referes to user schema
+        username: {
             type: String,
             required: true
         },
-        createdAt: { // javascript that allows us to see the current date create at
+        createdAt: {
             type: Date,
             default: Date.now,
         }
@@ -31,22 +31,22 @@ const reactionSchema = new Schema(
 )
 
 const thoughtSchema = new Schema(
-    {
-        thoughtText: { // text must be a string
-            type: String,
+    { // schema for thoughts. Each thought has a thoughtText, username, and createdAt function
+        thoughtText: {
+            type: String, // thoughtText is a string
             required: true,
             maxLength: 280,
             minlenght: 1
         },
-        createdAt: { // javascript that tells us the date created on
+        createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now // createdAt is a Date
         },
-        username: { // refers to user schema
-            type: String,
+        username: {
+            type: String, // username is a string
             required: true
         },
-        reactions: [reactionSchema] // foreign key to reaction schema
+        reactions: [reactionSchema] // reactions is an array of reactionSchema
     },
     {
         toJSON: {

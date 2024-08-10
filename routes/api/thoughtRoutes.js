@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { // this exports all of the async functions created in the controllers folder
+const { // import controllers and function names from thoughtController
     getAllThoughts,
      getSingleThought,
      createThought,

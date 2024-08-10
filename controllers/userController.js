@@ -1,21 +1,28 @@
 const { User, Thought } = require('../models');
 module.exports = {
-    async getUser(req, res) { // 
+
+// get all users
+    async getUser(req, res) { 
         try {
-            const users = await User.find().populate('thoughts', 'friends');
+            const users = await User.find()
+            .populate('thoughts')
+            .populate('friends')
+            ;
             res.json(users);
 
         } catch (err) {
             res.status(500).json(err);
         }
     },
-    async getSingleUser(req, res) { // get user by its ID
-        try {
-            const user = await User.findOne({ _id: req.params.id })
-            .populate('thoughts','friends');
+// get user by ID
+    async getSingleUser(req, res) { 
+    try {
+            const user = await User.findOne({ _id: req.params.id }) // get user by its ID
+            .populate('thoughts')
+            .populate('friends');
             
-            if (!user) { // if no user then return an error
-                return res.status(404).json({ message: 'User not found' });
+            if (!user) { 
+                return res.status(404).json({ message: 'User not found' });// if no user then return an error
             }
     
             res.status(200).json(user);
@@ -25,8 +32,9 @@ module.exports = {
         }
     },
 
+// post method for creating a new user
     async createUser(req, res) {
-        try { // post method for creating a new user
+        try { 
             const newUser = await User.create(req.body);
             console.log(newUser),
             res.json(newUser);
@@ -34,8 +42,8 @@ module.exports = {
             res.status(500).json(err)
         }
     },
-
-    async updateUser(req, res) { // put method for updating user
+// put method for updating user
+    async updateUser(req, res) { 
         try {
             const users = await User.findOneAndUpdate(
                 { _id: req.params.id },
@@ -50,8 +58,8 @@ module.exports = {
             res.status(500).json(err)
         }
     },
-
-    async deleteUser(req, res) { // delete method for finding user by its ID and delete
+// delete method for finding user by its ID and delete
+    async deleteUser(req, res) { 
         try {
             const user = await User.findOneAndDelete({ _id: req.params.id });
             if (!user) {
@@ -64,8 +72,8 @@ module.exports = {
             res.status(500).json({ message: 'something went wrong' });
         }
     },
-
-    async addFriend(req, res) { // put method for updating user when adding a friend
+// put method for updating user when adding a friend
+    async addFriend(req, res) { 
         try {
             const users = await User.findByIdAndUpdate(
                 { _id: req.params.userId },
@@ -82,7 +90,8 @@ module.exports = {
             res.status(500).json({ message: 'something went wrong' });
         }
     },
-    async deleteFriend(req, res) { // delete method that finds user by its ID and deletes a friend
+    // delete method that finds user by its ID and deletes a friend
+    async deleteFriend(req, res) { 
         try{
             const deleteFreind = await User.findOneAndUpdate(
                 {_id: req.params.userId},
